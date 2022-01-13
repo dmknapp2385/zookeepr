@@ -10,6 +10,9 @@ app.use(express.urlencoded({ extended: true}));
 //parse incoming JSON data 
 app.use(express.json());
 
+//allow server to access static files in public without specific routes
+app.use(express.static('public'));
+
 const { animals } = require('./data/animals');
 
 function filterByQuery(query, animalsArray) {
@@ -111,6 +114,10 @@ app.post('/api/animals', (req,res) => {
     res.json(req.body);
     }
 })
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+  });
 
 app.listen(PORT, () => {
     console.log(`API server now on http://localhost:${PORT}`);
